@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	println("Welcome to TaskMonitor v0.1")
+	println("Welcome to TaskMonitor v1.0")
 	start := true
 	for start {
 
