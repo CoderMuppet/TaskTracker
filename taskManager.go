@@ -99,10 +99,45 @@ func ListTasks(filter *string) {
 	}
 }
 
+func MarkTask(command string, id string) {
+	taskStat := command[1:]
+	if taskStat != "done" && taskStat != "in-progress" {
+		println("Invalid status")
+		return
+	}
+	task := FindTask(convert(id))
+	println("Set task", id, "to", taskStat)
+	task.Status = taskStat
+	saveTasks()
+}
+
 func UpdateTask(id int, descriptor string) {
-	println("Editing a task")
+	task := FindTask(id)
+	if task == nil {
+		println("Task not found")
+		return
+	}
+	task.Description = descriptor
+	task.UpdateAt = time.Now().Format("2006-01-02 15:04:05")
+	saveTasks()
+	println("Task updated successfully")
 }
 
 func DeleteTask(id int) {
-	println("Deleting a task")
+	index := -1
+	for i, t := range taskManager.Tasks {
+		if t.Id == id {
+			index = i
+			break
+		}
+	}
+	if index == -1 {
+		println("Task not found")
+		return
+	}
+	taskManager.Tasks = append(taskManager.Tasks[:index], taskManager.Tasks[index+1:]...)
+	taskManager.TotalTasks--
+	saveTasks()
+	println("Task deleted successfully")
+	UpdateIds()
 }

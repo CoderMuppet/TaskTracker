@@ -16,6 +16,15 @@ func main() {
 
 		input := strings.Fields(inputString)
 
+		if input[0][0:4] == "mark" {
+
+			MarkTask(input[0][4:], input[1])
+			println("\nPress enter to continue...")
+			fmt.Scanln()
+			ClearScreen()
+			continue
+		}
+
 		switch input[0] {
 		case "add":
 			AddTask(strings.Join(input[1:], " "))

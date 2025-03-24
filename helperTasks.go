@@ -36,3 +36,21 @@ func loadTasks() {
 		taskManager = TaskManager{Tasks: []Task{}, TotalTasks: 0}
 	}
 }
+
+func FindTask(id int) *Task {
+	for i, task := range taskManager.Tasks {
+		if task.Id == id {
+			return &taskManager.Tasks[i]
+		}
+	}
+	return nil
+}
+
+func UpdateIds() {
+	newId := 1
+	for i := range taskManager.Tasks {
+		taskManager.Tasks[i].Id = newId
+		newId++
+	}
+	saveTasks()
+}
